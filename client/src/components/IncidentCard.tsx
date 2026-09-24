@@ -18,7 +18,7 @@ export const IncidentCard: React.FC<MircroCardProps> = ({ incident }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
-  const updateMicro = async (field: 'severity', value: string) => {
+  const updateMicro = async (field: 'severity' | 'status', value: string) => {
     setIsUpdating(true);
     try {
       const response = await fetch(`/api/incidents/${incident.id}`, {
@@ -66,8 +66,7 @@ export const IncidentCard: React.FC<MircroCardProps> = ({ incident }) => {
     }
   };
 
-  const sev = severityConfig[incident.severity];
-
+const sev = severityConfig[incident.severity];
 
   return (
     <div className={`incident-card ${sev.className}`}>

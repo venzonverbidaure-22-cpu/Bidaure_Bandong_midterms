@@ -14,7 +14,6 @@ export const Dashboard: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [filterSeverity, setFilterSeverity] = useState<string>('ALL');
 
-
   // ── Fetch Incidents ──────────────────────────────────────────────────────
   const fetchIncidents = async () => {
     dispatch({ type: 'SET_LOADING', payload: true });
@@ -91,7 +90,7 @@ export const Dashboard: React.FC = () => {
   const stats = {
     total: state.incidents.length,
     open: state.incidents.filter((i) => i.status === 'DEVELOPMENT').length,
-    critical: state.incidents.filter((i) => i.severity === 'STAGING').length,
+    critical: state.incidents.filter((i) => i.status === 'STAGING').length,
     resolved: state.incidents.filter((i) => i.status === 'PRODUCTION').length,
   };
 
@@ -115,7 +114,7 @@ export const Dashboard: React.FC = () => {
               </defs>
             </svg>
           </div>
-          <h1 className="header-title">PulseDesk</h1>
+          <h1 className="header-title">ServiceHub </h1>
         </div>
         <div className="header-right">
           <span className="user-email">{state.user?.email}</span>

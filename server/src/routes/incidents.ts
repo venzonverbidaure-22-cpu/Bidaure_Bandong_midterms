@@ -16,8 +16,8 @@ interface Incident {
   id: string;
   title: string;
   description: string;
-  severity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
-  status: 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'CLOSED';
+  severity: 'DEVELOPMENT' | 'STAGING' | 'PRODUCTION';
+  status: 'DEVELOPMENT' | 'STAGING' | 'PRODUCTION';
   createdAt: string;
   updatedAt: string;
 }
@@ -48,7 +48,7 @@ router.post(
   authenticateJWT,
   validate(createIncidentSchema),
   (req: AuthRequest, res: Response) => {
-    const { title, description, severity } = req.body;
+    const { title, description, severity, status } = req.body;
     const now = new Date().toISOString();
 
     const incident: Incident = {
@@ -56,7 +56,7 @@ router.post(
       title,
       description,
       severity,
-      status: 'OPEN',
+      status,
       createdAt: now,
       updatedAt: now,
     };
