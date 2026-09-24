@@ -1,3 +1,4 @@
+import { environment } from 'effect/Differ';
 import { z } from 'zod';
 
 export const loginSchema = z.object({
@@ -17,7 +18,7 @@ export const createIncidentSchema = z.object({
 
 export const updateIncidentSchema = z.object({
   body: z.object({
-    severity: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']).optional(),
-    status: z.enum(['OPEN', 'IN_PROGRESS', 'RESOLVED', 'CLOSED']).optional(),
+    environment: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']).optional(),
+    servicestatus: z.enum(['HEALTHY', 'DEGRADED', 'DOWN']).optional(),
   }),
 });

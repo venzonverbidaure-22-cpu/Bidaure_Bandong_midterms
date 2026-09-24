@@ -12,17 +12,17 @@ import {
 const router = Router();
 
 // ─── In-Memory Data Store ────────────────────────────────────────────────────
-interface Incident {
+interface Microservice {
   id: string;
   title: string;
   description: string;
-  severity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
-  status: 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'CLOSED';
+  environment : 'DEVELOPMENT' | 'STAGING' | 'PRODUCTION';
+  status: 'HEALTHY' | 'DEGRADED' | 'DOWN';
   createdAt: string;
   updatedAt: string;
 }
 
-let incidents: Incident[] = [];
+let microservices: Microservice[] = [];
 
 // ─── Auth Route ──────────────────────────────────────────────────────────────
 router.post('/auth/login', validate(loginSchema), (req, res) => {
@@ -51,24 +51,24 @@ router.post(
     const { title, description, severity } = req.body;
     const now = new Date().toISOString();
 
-    const incident: Incident = {
+    const microservice: Microservice = {
       id: uuidv4(),
       title,
       description,
-      severity,
-      status: 'OPEN',
+      environment:'DEVELOPMENT',
+      status: 'HEALTHY',
       createdAt: now,
       updatedAt: now,
     };
 
-    incidents.push(incident);
-    res.status(201).json(incident);
+    microservices.push(microservice);
+    res.status(201).json(microservice);
   }
 );
 
 // ─── Get All Incidents ───────────────────────────────────────────────────────
 router.get('/incidents', authenticateJWT, (_req: AuthRequest, res: Response) => {
-  res.json(incidents);
+  res.json(microservices);
 });
 
 // ─── Update Incident ─────────────────────────────────────────────────────────
@@ -78,21 +78,21 @@ router.patch(
   validate(updateIncidentSchema),
   (req: AuthRequest, res: Response) => {
     const { id } = req.params;
-    const index = incidents.findIndex((inc) => inc.id === id);
+    const index = microservices.findIndex((inc) => inc.id === id);
 
     if (index === -1) {
       return res.status(404).json({ message: 'Incident not found' });
     }
 
-    const { severity, status } = req.body;
-    const updated: Incident = {
-      ...incidents[index],
-      ...(severity && { severity }),
+    const { environment, status } = req.body;
+    const updated: Microservice = {
+      ...microservices[index],
+      ...(environment && { environment }),
       ...(status && { status }),
       updatedAt: new Date().toISOString(),
     };
 
-    incidents[index] = updated;
+    microservices[index] = updated;
     res.json(updated);
   }
 );
@@ -100,14 +100,14 @@ router.patch(
 // ─── Delete Incident ─────────────────────────────────────────────────────────
 router.delete('/incidents/:id', authenticateJWT, (req: AuthRequest, res: Response) => {
   const { id } = req.params;
-  const index = incidents.findIndex((inc) => inc.id === id);
+  const index = microservices.findIndex((inc) => inc.id === id);
 
   if (index === -1) {
-    return res.status(404).json({ message: 'Incident not found' });
+    return res.status(404).json({ message: 'Error not found' });
   }
 
-  incidents.splice(index, 1);
-  res.status(200).json({ message: 'Incident deleted successfully' });
+  microservices.splice(index, 1);
+  res.status(200).json({ message: 'Error deleted successfully' });
 });
 
 export default router;
