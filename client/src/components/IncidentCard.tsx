@@ -1,32 +1,30 @@
 import React, { useState } from 'react';
-import { useIncidentContext } from '../context/MicroContext';
-import type { Incident } from '../types';
+import { useMicroContext } from '../context/MicroContext';
+import type { Microservice } from '../types';
 
-interface IncidentCardProps {
-  incident: Incident;
+interface MircroCardProps {
+  incident: Microservice;
 }
 
 const severityConfig = {
-  LOW: { label: 'Low', className: 'severity-low' },
-  MEDIUM: { label: 'Medium', className: 'severity-medium' },
-  HIGH: { label: 'High', className: 'severity-high' },
-  CRITICAL: { label: 'Critical', className: 'severity-critical' },
+  DEVELOPMENT: { label: 'Low', className: 'severity-low' },
+  STAGING: { label: 'Medium', className: 'severity-medium' },
+  PRODUCTION: { label: 'High', className: 'severity-high' },
 };
 
 const statusConfig = {
-  OPEN: { label: 'Open', className: 'status-open' },
-  IN_PROGRESS: { label: 'In Progress', className: 'status-in-progress' },
-  RESOLVED: { label: 'Resolved', className: 'status-resolved' },
-  CLOSED: { label: 'Closed', className: 'status-closed' },
+  DEVELOPMENT: { label: 'Open', className: 'status-open' },
+  STAGING: { label: 'In Progress', className: 'status-in-progress' },
+  PRODUCTION: { label: 'Resolved', className: 'status-resolved' },
 };
 
-export const IncidentCard: React.FC<IncidentCardProps> = ({ incident }) => {
-  const { state, dispatch } = useIncidentContext();
+export const IncidentCard: React.FC<MircroCardProps> = ({ incident }) => {
+  const { state, dispatch } = useMicroContext();
   const [isUpdating, setIsUpdating] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
-  const updateIncident = async (field: 'severity' | 'status', value: string) => {
+  const updateMicro = async (field: 'severity' | 'status', value: string) => {
     setIsUpdating(true);
     try {
       const response = await fetch(`/api/incidents/${incident.id}`, {
@@ -40,7 +38,7 @@ export const IncidentCard: React.FC<IncidentCardProps> = ({ incident }) => {
 
       if (response.ok) {
         const updated = await response.json();
-        dispatch({ type: 'UPDATE_SUCCESS', payload: updated });
+        dispatch({ type: 'UPDATE_SERVICE_SUCCESS', payload: updated });
       } else {
         const err = await response.json();
         dispatch({ type: 'SET_ERROR', payload: err.message || 'Update failed' });
@@ -61,7 +59,7 @@ export const IncidentCard: React.FC<IncidentCardProps> = ({ incident }) => {
       });
 
       if (response.ok) {
-        dispatch({ type: 'DELETE_SUCCESS', payload: incident.id });
+        dispatch({ type: 'DELETE_SERVICE_SUCCESS', payload: incident.id });
       } else {
         const err = await response.json();
         dispatch({ type: 'SET_ERROR', payload: err.message || 'Delete failed' });
@@ -125,7 +123,7 @@ export const IncidentCard: React.FC<IncidentCardProps> = ({ incident }) => {
           <label>Severity</label>
           <select
             value={incident.severity}
-            onChange={(e) => updateIncident('severity', e.target.value)}
+            onChange={(e) => updateMicro('severity', e.target.value)}
             disabled={isUpdating}
             className={`select-input ${sev.className}`}
           >
@@ -140,7 +138,7 @@ export const IncidentCard: React.FC<IncidentCardProps> = ({ incident }) => {
           <label>Status</label>
           <select
             value={incident.status}
-            onChange={(e) => updateIncident('status', e.target.value)}
+            onChange={(e) => updateMicro('status', e.target.value)}
             disabled={isUpdating}
             className={`select-input ${stat.className}`}
           >

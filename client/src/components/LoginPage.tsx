@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useIncidentContext } from '../context/MicroContext';
+import { useMicroContext } from '../context/MicroContext';
 
 export const LoginPage: React.FC = () => {
-  const { dispatch } = useIncidentContext();
+  const { dispatch } = useMicroContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
