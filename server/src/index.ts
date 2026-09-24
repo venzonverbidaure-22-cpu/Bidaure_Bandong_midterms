@@ -22,7 +22,7 @@ app.get('/health', (_req, res) => {
 
 // ─── Start Server ────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`🚀 PulseDesk API running on http://localhost:${PORT}`);
+  console.log(`PulseDesk API running on http://localhost:${PORT}`);
 });
 
 export default app;
