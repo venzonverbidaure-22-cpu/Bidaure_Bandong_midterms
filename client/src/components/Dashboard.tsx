@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useIncidentContext } from '../context/MicroContext';
+import { useMicroContext } from '../context/MicroContext';
 import { IncidentCard } from './IncidentCard';
-import type { Incident } from '../types';
+import type { Microservice } from '../types';
 
 export const Dashboard: React.FC = () => {
-  const { state, dispatch } = useIncidentContext();
+  const { state, dispatch } = useMicroContext();
 
   // Create incident form state
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [severity, setSeverity] = useState<Incident['severity']>('MEDIUM');
+  const [severity, setSeverity] = useState<Microservice['severity']>('STAGING');
   const [isCreating, setIsCreating] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [filterSeverity, setFilterSeverity] = useState<string>('ALL');
@@ -24,7 +24,7 @@ export const Dashboard: React.FC = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        dispatch({ type: 'FETCH_SUCCESS', payload: data });
+        dispatch({ type: 'FETCH_SERVICES_SUCCESS', payload: data });
       } else {
         dispatch({ type: 'SET_ERROR', payload: data.message || 'Failed to fetch' });
       }
@@ -54,10 +54,10 @@ export const Dashboard: React.FC = () => {
 
       const data = await response.json();
       if (response.ok) {
-        dispatch({ type: 'CREATE_SUCCESS', payload: data });
+        dispatch({ type: 'CREATE_SERVICE_SUCCESS', payload: data });
         setTitle('');
         setDescription('');
-        setSeverity('MEDIUM');
+        setSeverity('STAGING');
         setShowForm(false);
       } else {
         if (data.issues) {
@@ -91,9 +91,9 @@ export const Dashboard: React.FC = () => {
   // ── Stats ────────────────────────────────────────────────────────────────
   const stats = {
     total: state.incidents.length,
-    open: state.incidents.filter((i) => i.status === 'OPEN').length,
-    critical: state.incidents.filter((i) => i.severity === 'CRITICAL').length,
-    resolved: state.incidents.filter((i) => i.status === 'RESOLVED').length,
+    open: state.incidents.filter((i) => i.status === 'DEVELOPMENT').length,
+    critical: state.incidents.filter((i) => i.severity === 'STAGING').length,
+    resolved: state.incidents.filter((i) => i.status === 'PRODUCTION').length,
   };
 
   return (
@@ -273,7 +273,7 @@ export const Dashboard: React.FC = () => {
                   <select
                     id="incident-severity"
                     value={severity}
-                    onChange={(e) => setSeverity(e.target.value as Incident['severity'])}
+                    onChange={(e) => setSeverity(e.target.value as Microservice['severity'])}
                     className="select-input"
                   >
                     <option value="LOW">Low</option>
