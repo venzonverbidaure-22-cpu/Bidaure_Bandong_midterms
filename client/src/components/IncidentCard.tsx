@@ -7,15 +7,9 @@ interface MircroCardProps {
 }
 
 const severityConfig = {
-  DEVELOPMENT: { label: 'Low', className: 'severity-low' },
-  STAGING: { label: 'Medium', className: 'severity-medium' },
-  PRODUCTION: { label: 'High', className: 'severity-high' },
-};
-
-const statusConfig = {
-  DEVELOPMENT: { label: 'Open', className: 'status-open' },
-  STAGING: { label: 'In Progress', className: 'status-in-progress' },
-  PRODUCTION: { label: 'Resolved', className: 'status-resolved' },
+  DEVELOPMENT: { label:'DEVELOPMENT', className: 'DEVELOPMENT' },
+  STAGING: { label: 'STAGING', className: 'STAGING' },
+  PRODUCTION: { label: 'PRODUCTION', className: 'PRODUCTION' },
 };
 
 export const IncidentCard: React.FC<MircroCardProps> = ({ incident }) => {
@@ -24,7 +18,7 @@ export const IncidentCard: React.FC<MircroCardProps> = ({ incident }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
-  const updateMicro = async (field: 'severity' | 'status', value: string) => {
+  const updateMicro = async (field: 'severity', value: string) => {
     setIsUpdating(true);
     try {
       const response = await fetch(`/api/incidents/${incident.id}`, {
@@ -73,14 +67,13 @@ export const IncidentCard: React.FC<MircroCardProps> = ({ incident }) => {
   };
 
   const sev = severityConfig[incident.severity];
-  const stat = statusConfig[incident.status];
+
 
   return (
     <div className={`incident-card ${sev.className}`}>
       <div className="incident-card-header">
         <div className="incident-badges">
           <span className={`badge ${sev.className}`}>{sev.label}</span>
-          <span className={`badge ${stat.className}`}>{stat.label}</span>
         </div>
         <div className="incident-actions">
           {!showConfirmDelete ? (
@@ -120,7 +113,7 @@ export const IncidentCard: React.FC<MircroCardProps> = ({ incident }) => {
 
       <div className="incident-controls">
         <div className="control-group">
-          <label>Severity</label>
+          <label>Status</label>
           <select
             value={incident.severity}
             onChange={(e) => updateMicro('severity', e.target.value)}
@@ -131,20 +124,6 @@ export const IncidentCard: React.FC<MircroCardProps> = ({ incident }) => {
             <option value="'STAGING'">STAGING</option>
             <option value="PRODUCTION">PRODUCTION</option>
 
-          </select>
-        </div>
-
-        <div className="control-group">
-          <label>Status</label>
-          <select
-            value={incident.status}
-            onChange={(e) => updateMicro('status', e.target.value)}
-            disabled={isUpdating}
-            className={`select-input ${stat.className}`}
-          >
-            <option value='DEVELOPMENT'>DEVELOPMENT</option>
-            <option value="'STAGING'">STAGING</option>
-            <option value="PRODUCTION">PRODUCTION</option>
           </select>
         </div>
       </div>

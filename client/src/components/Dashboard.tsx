@@ -13,7 +13,7 @@ export const Dashboard: React.FC = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [filterSeverity, setFilterSeverity] = useState<string>('ALL');
-  const [filterStatus, setFilterStatus] = useState<string>('ALL');
+
 
   // ── Fetch Incidents ──────────────────────────────────────────────────────
   const fetchIncidents = async () => {
@@ -84,7 +84,6 @@ export const Dashboard: React.FC = () => {
   // ── Filter Incidents ─────────────────────────────────────────────────────
   const filteredIncidents = state.incidents.filter((inc) => {
     if (filterSeverity !== 'ALL' && inc.severity !== filterSeverity) return false;
-    if (filterStatus !== 'ALL' && inc.status !== filterStatus) return false;
     return true;
   });
 
@@ -143,7 +142,7 @@ export const Dashboard: React.FC = () => {
             </div>
             <div className="stat-content">
               <span className="stat-number">{stats.total}</span>
-              <span className="stat-label">Total Incidents</span>
+              <span className="stat-label">Total Microservices</span>
             </div>
           </div>
 
@@ -157,7 +156,7 @@ export const Dashboard: React.FC = () => {
             </div>
             <div className="stat-content">
               <span className="stat-number">{stats.open}</span>
-              <span className="stat-label">Open</span>
+              <span className="stat-label">DEVELOPMENT</span>
             </div>
           </div>
 
@@ -171,7 +170,7 @@ export const Dashboard: React.FC = () => {
             </div>
             <div className="stat-content">
               <span className="stat-number">{stats.critical}</span>
-              <span className="stat-label">Critical</span>
+              <span className="stat-label">STAGING</span>
             </div>
           </div>
 
@@ -184,7 +183,7 @@ export const Dashboard: React.FC = () => {
             </div>
             <div className="stat-content">
               <span className="stat-number">{stats.resolved}</span>
-              <span className="stat-label">Resolved</span>
+              <span className="stat-label">PRODUCTION</span>
             </div>
           </div>
         </div>
@@ -210,23 +209,9 @@ export const Dashboard: React.FC = () => {
               onChange={(e) => setFilterSeverity(e.target.value)}
               className="select-input"
             >
-              <option value="ALL">All Severities</option>
-              <option value="LOW">Low</option>
-              <option value="MEDIUM">Medium</option>
-              <option value="HIGH">High</option>
-              <option value="CRITICAL">Critical</option>
-            </select>
-
-            <select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="select-input"
-            >
-              <option value="ALL">All Statuses</option>
-              <option value="OPEN">Open</option>
-              <option value="IN_PROGRESS">In Progress</option>
-              <option value="RESOLVED">Resolved</option>
-              <option value="CLOSED">Closed</option>
+              <option value="DEVELOPMENT">DEVELOPMENT</option>
+              <option value='STAGING'>STAGING</option>
+              <option value='PRODUCTION'>PRODUCTION</option>
             </select>
           </div>
 
@@ -242,7 +227,7 @@ export const Dashboard: React.FC = () => {
                   <line x1="12" y1="5" x2="12" y2="19" />
                   <line x1="5" y1="12" x2="19" y2="12" />
                 </svg>
-                New Incident
+                New Microservice
               </>
             )}
           </button>
@@ -252,7 +237,7 @@ export const Dashboard: React.FC = () => {
         {showForm && (
           <div className="create-form-wrapper">
             <form onSubmit={handleCreate} className="create-form">
-              <h3>Report New Incident</h3>
+              <h3>Make New Microservice</h3>
 
               <div className="form-row">
                 <div className="form-group">
@@ -276,10 +261,9 @@ export const Dashboard: React.FC = () => {
                     onChange={(e) => setSeverity(e.target.value as Microservice['severity'])}
                     className="select-input"
                   >
-                    <option value="LOW">Low</option>
-                    <option value="MEDIUM">Medium</option>
-                    <option value="HIGH">High</option>
-                    <option value="CRITICAL">Critical</option>
+                    <option value="DEVELOPMENT">DEVELOPMENT</option>
+                    <option value='STAGING'>STAGING</option>
+                    <option value='PRODUCTION'>PRODUCTION</option>
                   </select>
                 </div>
               </div>
