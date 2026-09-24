@@ -127,10 +127,10 @@ export const IncidentCard: React.FC<MircroCardProps> = ({ incident }) => {
             disabled={isUpdating}
             className={`select-input ${sev.className}`}
           >
-            <option value="LOW">Low</option>
-            <option value="MEDIUM">Medium</option>
-            <option value="HIGH">High</option>
-            <option value="CRITICAL">Critical</option>
+            <option value='DEVELOPMENT'>DEVELOPMENT</option>
+            <option value="'STAGING'">STAGING</option>
+            <option value="PRODUCTION">PRODUCTION</option>
+
           </select>
         </div>
 
@@ -142,10 +142,9 @@ export const IncidentCard: React.FC<MircroCardProps> = ({ incident }) => {
             disabled={isUpdating}
             className={`select-input ${stat.className}`}
           >
-            <option value="OPEN">Open</option>
-            <option value="IN_PROGRESS">In Progress</option>
-            <option value="RESOLVED">Resolved</option>
-            <option value="CLOSED">Closed</option>
+            <option value='DEVELOPMENT'>DEVELOPMENT</option>
+            <option value="'STAGING'">STAGING</option>
+            <option value="PRODUCTION">PRODUCTION</option>
           </select>
         </div>
       </div>

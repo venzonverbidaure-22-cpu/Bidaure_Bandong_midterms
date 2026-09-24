@@ -64,8 +64,8 @@ export const LoginPage: React.FC = () => {
               </defs>
             </svg>
           </div>
-          <h1>PulseDesk</h1>
-          <p className="login-subtitle">Incident Management Platform</p>
+          <h1>ServiceHub </h1>
+          <p className="login-subtitle">Microservices Platform</p>
         </div>
 
         {error && (

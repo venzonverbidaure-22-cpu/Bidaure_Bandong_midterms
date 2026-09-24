@@ -11,13 +11,13 @@ export const createIncidentSchema = z.object({
   body: z.object({
     title: z.string().min(3, 'Title required'),
     description: z.string().min(5, 'Description required'),
-    severity: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']),
+    severity: z.enum(['DEVELOPMENT' , 'STAGING' , 'PRODUCTION']),
   }),
 });
 
 export const updateIncidentSchema = z.object({
   body: z.object({
-    severity: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']).optional(),
-    status: z.enum(['OPEN', 'IN_PROGRESS', 'RESOLVED', 'CLOSED']).optional(),
+    severity: z.enum(['DEVELOPMENT' , 'STAGING' , 'PRODUCTION']).optional(),
+    status: z.enum(['DEVELOPMENT' , 'STAGING' , 'PRODUCTION']).optional(),
   }),
 });
